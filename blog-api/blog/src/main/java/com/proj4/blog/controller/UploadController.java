@@ -26,8 +26,8 @@ public class UploadController {
         String originalFilename = file.getOriginalFilename();
         //唯一的文件名称
         String fileName = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
-        //上传文件 上传到哪呢？ 七牛云 云服务器 按量付费 速度快 把图片发放到离用户最近的服务器上
-        // 降低 我们自身应用服务器的带宽消耗
+        //上传文件 上传到云服务器
+        // 降低自身应用服务器的带宽消耗
 
         boolean upload = qiniuUtils.upload(file, fileName);
         if (upload){

@@ -14,7 +14,6 @@ public class TagsController {
     @Autowired
     private TagService tagService;
 
-    //   /tags/hot
     @GetMapping("hot")
     public Result hot(){
         int limit = 6;
