@@ -1,9 +1,9 @@
-//package com.mszlu.blog.service.mq;
+//package com.proj4.blog.service.mq;
 //
 //import com.alibaba.fastjson.JSON;
-//import com.mszlu.blog.service.ArticleService;
-//import com.mszlu.blog.vo.ArticleMessage;
-//import com.mszlu.blog.vo.Result;
+//import com.proj4.blog.service.ArticleService;
+//import com.proj4.blog.vo.ArticleMessage;
+//import com.proj4.blog.vo.Result;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.commons.codec.digest.DigestUtils;
 //import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -15,9 +15,7 @@
 //import java.time.Duration;
 //import java.util.Set;
 //
-///**
-// * @author B站：码神之路
-// */
+
 //@Slf4j
 //@Component
 //@RocketMQMessageListener(topic = "blog-update-article",consumerGroup = "blog-update-article-group")

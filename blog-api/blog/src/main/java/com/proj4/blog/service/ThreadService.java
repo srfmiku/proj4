@@ -3,6 +3,7 @@ package com.proj4.blog.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.proj4.blog.dao.mapper.ArticleMapper;
 import com.proj4.blog.dao.pojo.Article;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ThreadService {
 
     @Resource
@@ -28,8 +30,10 @@ public class ThreadService {
             if (viewCountStr == null){
                 //初始化
                 redisTemplate.opsForHash().put("view_count", String.valueOf(article.getId()),String.valueOf(article.getViewCounts()));
+//                log.info("redis浏览量初始化成功");
             }
         }
+        log.info("全部redis浏览量初始化成功");
     }
 
     @Autowired

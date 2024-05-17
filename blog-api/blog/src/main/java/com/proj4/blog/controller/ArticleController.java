@@ -16,7 +16,7 @@ public class ArticleController {
 
     @PostMapping("search")
     public Result search(@RequestBody ArticleParam articleParam){
-        //写一个搜索接口
+
         String search = articleParam.getSearch();
         return articleService.searchArticle(search);
     }
@@ -74,9 +74,7 @@ public class ArticleController {
     public Result findArticleById(@PathVariable("id") Long articleId){
         return articleService.findArticleById(articleId);
     }
-    //接口url：/articles/publish
-    //
-    //请求方式：POST
+
     @PostMapping("publish")
     public Result publish(@RequestBody ArticleParam articleParam){
 

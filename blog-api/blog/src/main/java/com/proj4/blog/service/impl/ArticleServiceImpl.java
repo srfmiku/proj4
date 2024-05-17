@@ -142,10 +142,10 @@ public class ArticleServiceImpl implements ArticleService {
          */
         Article article = this.articleMapper.selectById(articleId);
         ArticleVo articleVo = copy(article, true, true,true,true);
-        //查看完文章了，新增阅读数，有没有问题呢？
+
         //查看完文章之后，本应该直接返回数据了，这时候做了一个更新操作，更新时加写锁，阻塞其他的读操作，性能就会比较低
-        // 更新 增加了此次接口的 耗时 如果一旦更新出问题，不能影响 查看文章的操作
-        //线程池  可以把更新操作 扔到线程池中去执行，和主线程就不相关了
+        // 更新增加了此次接口的耗时 如果更新出问题不能影响查看文章的操作
+        //可以把更新操作扔到线程池中去执行
         threadService.updateArticleViewCount(articleMapper,article);
 
         String viewCount = (String) redisTemplate.opsForHash().get("view_count", String.valueOf(articleId));
@@ -157,7 +157,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Result publish(ArticleParam articleParam) {
-        //此接口 要加入到登录拦截当中
+        //此接口要加入到登录拦截当中
         SysUser sysUser = UserThreadLocal.get();
         /**
          * 1. 发布文章 目的 构建Article对象
