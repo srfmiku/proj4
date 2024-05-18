@@ -159,12 +159,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Result publish(ArticleParam articleParam) {
         //此接口要加入到登录拦截当中
         SysUser sysUser = UserThreadLocal.get();
-        /**
-         * 1. 发布文章 目的 构建Article对象
-         * 2. 作者id  当前的登录用户
-         * 3. 标签  要将标签加入到 关联列表当中
-         * 4. body 内容存储 article bodyId
-         */
         Article article = new Article();
         boolean isEdit = false;
         if (articleParam.getId() != null){
@@ -185,16 +179,13 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCommentCounts(0);
             article.setCreateDate(System.currentTimeMillis());
             article.setCategoryId(Long.parseLong(articleParam.getCategory().getId()));
-            //插入之后 会生成一个文章id
             this.articleMapper.insert(article);
         }
-        //tag
         List<TagVo> tags = articleParam.getTags();
         if (tags != null){
             for (TagVo tag : tags) {
                 Long articleId = article.getId();
                 if (isEdit){
-                    //先删除
                     LambdaQueryWrapper<ArticleTag> queryWrapper = Wrappers.lambdaQuery();
                     queryWrapper.eq(ArticleTag::getArticleId,articleId);
                     articleTagMapper.delete(queryWrapper);
@@ -205,7 +196,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleTagMapper.insert(articleTag);
             }
         }
-        //body
+
         if (isEdit){
             ArticleBody articleBody = new ArticleBody();
             articleBody.setArticleId(article.getId());
@@ -228,7 +219,6 @@ public class ArticleServiceImpl implements ArticleService {
         map.put("id",article.getId().toString());
 
         if (isEdit){
-            //发送一条消息给rocketmq 当前文章更新了，更新一下缓存吧
             ArticleMessage articleMessage = new ArticleMessage();
             articleMessage.setArticleId(article.getId());
 //            rocketMQTemplate.convertAndSend("blog-update-article",articleMessage);
